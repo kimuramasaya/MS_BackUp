@@ -47,11 +47,8 @@ public class timer : MonoBehaviour
             worker.SetValue(time_event[i].GetRate(), i);
         }
 
-        worker = QSort(worker, 0, time_event.Length - 1);
-        for (int i = 0; i < worker.Length; i++)
-        {
-            Debug.Log(worker[i]);
-        }
+        worker = timerevent.QSort(worker, 0, time_event.Length - 1);
+
         ClassArraySwapCheck_AfterSwap(worker);
     }
 
@@ -128,14 +125,17 @@ public class timer : MonoBehaviour
 
         if (time_event.Length <= 0)
         {
-            Debug.LogWarning("TimeEvent : sizeが0以下の値で設定されています。\n使用する場合は値を変えてください");
+            Debug.LogWarning("timer : TimeEvent sizeが0以下の値で設定されています。\n使用する場合は値を変えてください");
+        }
+
+        for (int i = 0; i < time_event.Length; i++)
+        {
+            if (time_event[i].GetLerpTime() <= 0.0f)
+            {
+                Debug.LogWarning("timer : Time_event.LerpTimeが0以下です!!\nゲージの色の更新ができません!!\n");
+            }
         }
     }
-
-    /*public timerevent GetTimeEventClassArray(int idx)
-    {
-        return time_event[idx];
-    }*/
 
     //エラーチェック
     void ErrorCheck()
@@ -157,50 +157,6 @@ public class timer : MonoBehaviour
         }
     }
 
-    //クイックソート
-    float[] QSort(float[] num, int left, int right)
-    {
-        int i, j;
-        float pivot;
-
-        i = left;                      /* ソートする配列の一番小さい要素の添字 */
-        j = right;                     /* ソートする配列の一番大きい要素の添字 */
-
-        pivot = num[(left + right) / 2]; /* 基準値を配列の中央付近にとる */
-
-        while (true)
-        {                    /* 無限ループ */
-
-            while (num[i] < pivot)       /* pivot より大きい値が */
-                i++;                   /* 出るまで i を増加させる */
-
-            while (pivot < num[j])       /* pivot より小さい値が */
-                j--;                   /*  出るまで j を減少させる */
-            if (i >= j)                /* i >= j なら */
-                break;                 /* 無限ループから抜ける */
-
-            Swap(num, i, j);             /* x[i] と x[j]を交換 */
-            i++;                       /* 次のデータ */
-            j--;
-        }
-
-        if (left < i - 1)              /* 基準値の左に 2 以上要素があれば */
-            QSort(num, left, i - 1);     /* 左の配列を Q ソートする */
-        if (j + 1 < right)            /* 基準値の右に 2 以上要素があれば */
-            QSort(num, j + 1, right);    /* 右の配列を Q ソートする */
-
-        return num;
-    }
-
-    /* 配列の要素を交換する */
-    void Swap(float[] x, int i, int j)
-    {
-        float temp;
-
-        temp = x[i];
-        x[i] = x[j];
-        x[j] = temp;
-    }
 
 
     void ClassArraySwapCheck_AfterSwap(float[] rateList)

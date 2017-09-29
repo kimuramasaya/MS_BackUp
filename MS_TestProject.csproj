@@ -93,6 +93,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\script\DEBUGCamera\SceneViewCamera.cs" />
+    <Compile Include="Assets\script\Explosion\Explosion.cs" />
     <Compile Include="Assets\script\gage\UI.cs" />
     <Compile Include="Assets\script\timer\timer.cs" />
     <Compile Include="Assets\script\timer\timerevent.cs" />
